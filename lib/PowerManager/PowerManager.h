@@ -4,10 +4,6 @@
 #include <Arduino.h>
 
 class PowerManager {
-  private:
-    const uint8_t _vextPin = 36;
-    const uint8_t _mosfetPin = 48;
-
   public:
     PowerManager();
     void begin();

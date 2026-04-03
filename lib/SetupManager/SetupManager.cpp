@@ -1,28 +1,29 @@
 #include "SetupManager.h"
+#include "../../include/config.h"
 
-#define SDA_OLED 17
-#define SCL_OLED 18
-#define RST_OLED 21
-
-SetupManager::SetupManager(uint8_t buttonPin) : 
-    _buttonPin(buttonPin),
+SetupManager::SetupManager() : 
     _exitMenu(false),
-    display(0x3c, SDA_OLED, SCL_OLED, GEOMETRY_128_64) {}
+    display(0x3c, OLED_SDA, OLED_SCL, GEOMETRY_128_64) {}
 
 void SetupManager::begin() {
-    pinMode(_buttonPin, INPUT_PULLUP);
 
-    pinMode(RST_OLED, OUTPUT);
-    digitalWrite(RST_OLED, HIGH);
+    pinMode(OLED_RST, OUTPUT);
     delay(10);
-    digitalWrite(RST_OLED, LOW);
+    digitalWrite(OLED_RST, HIGH);
+    delay(10);
+    digitalWrite(OLED_RST, LOW);
     delay(50);
-    digitalWrite(RST_OLED, HIGH);
+    digitalWrite(OLED_RST, HIGH);
     delay(50);
 
-    display.init();
+    if (!display.init()) {
+        Serial.println("[ERRO] Falha ao inicializar o OLED!");
+    }
     display.flipScreenVertically();
     display.setFont(ArialMT_Plain_10);
+    display.clear();
+    display.drawString(0, 0, "Sistema a iniciar...");
+    display.display();
 }
 
 void SetupManager::updateDisplay(String step, String status) {
@@ -39,12 +40,27 @@ void SetupManager::updateDisplay(String step, String status) {
     Serial.println(status);
 }
 
-void SetupManager::run(SensorsManager& sensors, LoRaManager& lora) {
+void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& gps) {
     _exitMenu = false;
+    float currentLat = 0.0;
+    float currentLng = 0.0;
+    bool hasFix = false;
 
-    updateDisplay("1. GPS Status", "Acquiring Fix...");
-    delay(3000); 
-    updateDisplay("1. GPS Status", "FIX OK");
+    updateDisplay("1. GPS Status", "Searching...");
+
+    // Loop until we get a valid fix
+    while (!hasFix) {
+        hasFix = gps.getPosition(currentLat, currentLng);
+        
+        // Optional: Add a small delay or button check to prevent infinite lock
+        if (!hasFix) {
+            // We don't want to clear the whole buffer, just update the status line if possible
+            // But for simplicity with your current updateDisplay:
+            delay(500); 
+        }
+    }
+
+    updateDisplay("1. GPS Status", "FIX OK!");
     delay(1000);
 
     updateDisplay("2. Sensors", "Reading...");
@@ -57,7 +73,9 @@ void SetupManager::run(SensorsManager& sensors, LoRaManager& lora) {
     bool registered = false;
     
     while (!registered) {
-        registered = lora.sendRegistration(40.7128, -74.0060);
+        // Use the real coordinates obtained from the GPS
+        registered = lora.sendRegistration(currentLat, currentLng);
+        
         if (!registered) {
             updateDisplay("3. LoRa Reg", "Failed. Retrying...");
             delay(2000);

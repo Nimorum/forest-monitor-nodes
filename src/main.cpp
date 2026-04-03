@@ -3,18 +3,20 @@
 #include "SetupManager.h"
 #include "SensorsManager.h"
 #include "LoRaManager.h"
+#include "GPSManager.h"
+#include "config.h"
 
 #define DEBUG_MODE true
 #define SLEEP_TIME_PROD 600
 #define SLEEP_TIME_DEBUG 20
 
 RTC_DATA_ATTR bool initialConfigDone = false;
-static const uint8_t BUTTON_PIN = 0;
 
 PowerManager power;
-SetupManager setupMenu(BUTTON_PIN);
+SetupManager setupMenu;
 SensorsManager sensors;
 LoRaManager lora;
+GPSManager gps;
 
 void setup()
 {
@@ -29,12 +31,13 @@ void setup()
         setupMenu.begin();
         power.gpsOn();
         power.sensorsOn();
+        delay(2000); // Aguarda os sensores estabilizarem
+        gps.begin();
         digitalWrite(LED_BUILTIN, HIGH);
         uint32_t setupStart = millis();
         bool inSetup = false;
         while (millis() - setupStart < 60000)
         {
-
             if (digitalRead(BUTTON_PIN) == LOW)
             { 
                 uint32_t pressStart = millis();
@@ -61,7 +64,6 @@ void setup()
 
             delay(50);
             if(inSetup){
-                setupMenu.run(sensors, lora);
                 break;
             }
         }
@@ -71,7 +73,7 @@ void setup()
 
         if (inSetup)
         {
-            setupMenu.run(sensors, lora);
+            setupMenu.run(sensors, lora, gps);
         }
 
         power.gpsOff();

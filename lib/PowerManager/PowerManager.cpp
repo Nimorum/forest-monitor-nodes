@@ -1,29 +1,30 @@
 #include "PowerManager.h"
+#include "../../include/config.h"
 
 PowerManager::PowerManager() {}
 
 void PowerManager::begin() {
     pinMode(LED_BUILTIN, OUTPUT);
-    pinMode(_vextPin, OUTPUT);
-    pinMode(_mosfetPin, OUTPUT);
+    pinMode(V_EXT_PIN, OUTPUT);
+    pinMode(GPS_VCC_PIN, OUTPUT);
     sensorsOff();
     gpsOff();
 }
 
 void PowerManager::sensorsOn() {
-  digitalWrite(_vextPin, LOW); 
+  digitalWrite(V_EXT_PIN, LOW); 
 }
 
 void PowerManager::sensorsOff() {
-  digitalWrite(_vextPin, HIGH);
+  digitalWrite(V_EXT_PIN, HIGH);
 }
 
 void PowerManager::gpsOn() {
-  digitalWrite(_mosfetPin, LOW);
+  digitalWrite(GPS_VCC_PIN, LOW);
 }
 
 void PowerManager::gpsOff() {
-  digitalWrite(_mosfetPin, HIGH);
+  digitalWrite(GPS_VCC_PIN, HIGH);
 }
 
 void PowerManager::sleep(uint64_t seconds) {
