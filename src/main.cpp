@@ -1,24 +1,32 @@
 #include <Arduino.h>
 #include "PowerManager.h"
+#include "SetupManager.h"
+#include "SensorsManager.h"
+#include "LoRaManager.h"
 
 #define DEBUG_MODE true
 #define SLEEP_TIME_PROD 600
 #define SLEEP_TIME_DEBUG 20
 
-// #include "DisplayManager.h" // Futura classe para o OLED
-
-PowerManager power;
 RTC_DATA_ATTR bool initialConfigDone = false;
 static const uint8_t BUTTON_PIN = 0;
+
+PowerManager power;
+SetupManager setupMenu(BUTTON_PIN);
+SensorsManager sensors;
+LoRaManager lora;
 
 void setup()
 {
     Serial.begin(115200);
     power.begin();
+    sensors.begin();
+    lora.begin();
 
     if (!initialConfigDone)
     {
         Serial.println(">>> MODO SETUP INICIAL (60s) <<<");
+        setupMenu.begin();
         power.gpsOn();
         power.sensorsOn();
         digitalWrite(LED_BUILTIN, HIGH);
@@ -27,11 +35,10 @@ void setup()
         while (millis() - setupStart < 60000)
         {
 
-            if (digitalRead(0) == LOW)
+            if (digitalRead(BUTTON_PIN) == LOW)
             { 
                 uint32_t pressStart = millis();
-
-                
+     
                 while (digitalRead(BUTTON_PIN) == LOW)
                 {
                     if (millis() - pressStart > 2000)
@@ -40,8 +47,7 @@ void setup()
                         inSetup = true;
                     }
                     delay(10);
-                    if (inSetup)
-                        break; 
+                    if (inSetup) break; 
                 }
             }
 
@@ -52,8 +58,10 @@ void setup()
                 Serial.println("\n[EVENTO] Comando recebido! Entrando no Setup...");
                 break;
             }
-            delay(100);
+
+            delay(50);
             if(inSetup){
+                setupMenu.run(sensors, lora);
                 break;
             }
         }
@@ -63,8 +71,7 @@ void setup()
 
         if (inSetup)
         {
-            // open Lcd Menu
-            // display.showSetupScreen();
+            setupMenu.run(sensors, lora);
         }
 
         power.gpsOff();
