@@ -2,6 +2,7 @@
 #define POWERMANAGER_H
 
 #include <Arduino.h>
+#include "../../include/config.h"
 
 class PowerManager {
   public:

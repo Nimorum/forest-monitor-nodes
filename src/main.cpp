@@ -4,11 +4,7 @@
 #include "SensorsManager.h"
 #include "LoRaManager.h"
 #include "GPSManager.h"
-#include "config.h"
-
-#define DEBUG_MODE true
-#define SLEEP_TIME_PROD 600
-#define SLEEP_TIME_DEBUG 20
+#include "../../include/config.h"
 
 RTC_DATA_ATTR bool initialConfigDone = false;
 
@@ -84,12 +80,15 @@ void setup()
     Serial.println("Executando telemetria...");
     power.sensorsOn();
     delay(1500);
-    //read sensors
+    float temperature = sensors.getTemperature();
+    float humidity = sensors.getHumidity();
+    float batteryVoltage = sensors.getBatteryVoltage();
+    float soilMoisture = 0.0; // Placeholder
+    float windSpeed = 0.0; // Placeholder
+    Serial.printf("Temp: %.2f C, Hum: %.2f %%, Bat: %.2f V\n", temperature, humidity, batteryVoltage);
     delay(1500);
-    //send data
+    lora.sendTelemetry(temperature, humidity, batteryVoltage, soilMoisture, windSpeed);
     delay(1500);
-    power.sensorsOff();
-
     Serial.println("A dormir...");
     uint32_t currentSleep = DEBUG_MODE ? SLEEP_TIME_DEBUG : SLEEP_TIME_PROD;
     power.sleep(currentSleep);

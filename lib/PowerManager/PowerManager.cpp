@@ -1,5 +1,4 @@
 #include "PowerManager.h"
-#include "../../include/config.h"
 
 PowerManager::PowerManager() {}
 

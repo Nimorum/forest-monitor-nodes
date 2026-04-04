@@ -7,6 +7,7 @@
 #include "SensorsManager.h" 
 #include "LoRaManager.h"
 #include "GPSManager.h"
+#include "../../include/config.h"
 
 class SetupManager {
 private:

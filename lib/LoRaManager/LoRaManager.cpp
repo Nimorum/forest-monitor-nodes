@@ -50,14 +50,14 @@ bool LoRaManager::sendRegistration(float latitude, float longitude) {
     return sendData(payload);
 }
 
-bool LoRaManager::sendTelemetry(float temperature, float humidity,float pressure, float soilMoisture, float windSpeed) {
+bool LoRaManager::sendTelemetry(float temperature, float humidity,float vbat, float soilMoisture, float windSpeed) {
     JsonDocument doc;
     
     doc["mac_address"] = getMacAddress();
     doc["method"] = "telemetry";
     doc["temperature"] = temperature;
     doc["humidity"] = humidity;
-    doc["pressure"] = pressure;
+    doc["battery_voltage"] = vbat;
     doc["wind_speed"] = windSpeed;
     doc["soil_moisture"] = soilMoisture;
 

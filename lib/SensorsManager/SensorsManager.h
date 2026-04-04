@@ -2,11 +2,15 @@
 #define SENSORSMANAGER_H
 
 #include <Arduino.h>
+#include "../../include/config.h"
+#include "DHT.h"
 
 class SensorsManager {
 public:
     void begin();
-    void printDummyData();
+    float getTemperature();
+    float getHumidity();
+    float getBatteryVoltage();
 };
 
 #endif

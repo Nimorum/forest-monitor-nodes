@@ -1,5 +1,4 @@
 #include "SetupManager.h"
-#include "../../include/config.h"
 
 SetupManager::SetupManager() : 
     _exitMenu(false),
@@ -22,8 +21,6 @@ void SetupManager::begin() {
     display.flipScreenVertically();
     display.setFont(ArialMT_Plain_10);
     display.clear();
-    display.drawString(0, 0, "Sistema a iniciar...");
-    display.display();
 }
 
 void SetupManager::updateDisplay(String step, String status) {
@@ -64,7 +61,15 @@ void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& g
     delay(1000);
 
     updateDisplay("2. Sensors", "Reading...");
-    sensors.printDummyData(); 
+    float temp = sensors.getTemperature();
+    float hum = sensors.getHumidity();
+    float bat = sensors.getBatteryVoltage();
+
+    Serial.printf("Temp: %.1f C, Hum: %.1f %%, Bat: %.2f V\n", temp, hum, bat);
+    
+    String sensorStatus = String(temp, 1) + "C  " + String(hum, 1) + "%";
+    updateDisplay("2. Sensors", sensorStatus);
+
     delay(2000);
     updateDisplay("2. Sensors", "ALL OK");
     delay(1000);
@@ -73,7 +78,6 @@ void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& g
     bool registered = false;
     
     while (!registered) {
-        // Use the real coordinates obtained from the GPS
         registered = lora.sendRegistration(currentLat, currentLng);
         
         if (!registered) {

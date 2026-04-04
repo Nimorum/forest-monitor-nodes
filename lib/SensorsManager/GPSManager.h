@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <TinyGPS++.h>
+#include "../../include/config.h"
 
 class GPSManager {
 private:

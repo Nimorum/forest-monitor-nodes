@@ -1,5 +1,4 @@
 #include "GPSManager.h"
-#include "../../include/config.h"
 
 GPSManager::GPSManager() : _gpsSerial(2) {} // Using Hardware Serial 2
 
