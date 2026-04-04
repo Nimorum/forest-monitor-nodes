@@ -24,3 +24,13 @@ float SensorsManager::getBatteryVoltage() {
     
     return voltage;
 }
+
+float SensorsManager::getSoilMoisture() {
+    // TODO
+    return 0.0; // Retorna um valor de umidade do solo (0-100%)
+}
+
+float SensorsManager::getWindSpeed() {
+    // TODO
+    return 0.0; // Retorna um valor de velocidade do vento (m/s)
+}

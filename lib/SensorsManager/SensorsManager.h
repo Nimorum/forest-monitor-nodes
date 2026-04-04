@@ -11,6 +11,8 @@ public:
     float getTemperature();
     float getHumidity();
     float getBatteryVoltage();
+    float getSoilMoisture();
+    float getWindSpeed();
 };
 
 #endif

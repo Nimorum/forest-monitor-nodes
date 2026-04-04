@@ -65,5 +65,6 @@
 #define SLEEP_TIME_PROD 600
 #define SLEEP_TIME_DEBUG 20
 #define SLEEP_TIME_LOW_BATTERY 89400 // 24h
+#define BATTERY_LOW_THRESHOLD 3.2 // Voltagem abaixo da qual consideramos a bateria "baixa"
 
 #endif

@@ -83,14 +83,14 @@ void setup()
     float temperature = sensors.getTemperature();
     float humidity = sensors.getHumidity();
     float batteryVoltage = sensors.getBatteryVoltage();
-    float soilMoisture = 0.0; // Placeholder
-    float windSpeed = 0.0; // Placeholder
+    float soilMoisture = sensors.getSoilMoisture();
+    float windSpeed = sensors.getWindSpeed();
     Serial.printf("Temp: %.2f C, Hum: %.2f %%, Bat: %.2f V\n", temperature, humidity, batteryVoltage);
     delay(1500);
     lora.sendTelemetry(temperature, humidity, batteryVoltage, soilMoisture, windSpeed);
     delay(1500);
     uint32_t currentSleep;
-    if(batteryVoltage < 3.2 && batteryVoltage > 1.0) { // Limite inferior para evitar leituras erradas ou danos
+    if(batteryVoltage < BATTERY_LOW_THRESHOLD && batteryVoltage > 1.0) { // Limite inferior para evitar leituras erradas ou danos
         Serial.println("Bateria baixa! Entrando em modo de baixo consumo...");
         currentSleep = SLEEP_TIME_LOW_BATTERY;
     } else {
