@@ -89,8 +89,14 @@ void setup()
     delay(1500);
     lora.sendTelemetry(temperature, humidity, batteryVoltage, soilMoisture, windSpeed);
     delay(1500);
+    uint32_t currentSleep;
+    if(batteryVoltage < 3.2 && batteryVoltage > 1.0) { // Limite inferior para evitar leituras erradas ou danos
+        Serial.println("Bateria baixa! Entrando em modo de baixo consumo...");
+        currentSleep = SLEEP_TIME_LOW_BATTERY;
+    } else {
+        currentSleep = DEBUG_MODE ? SLEEP_TIME_DEBUG : SLEEP_TIME_PROD;
+    }
     Serial.println("A dormir...");
-    uint32_t currentSleep = DEBUG_MODE ? SLEEP_TIME_DEBUG : SLEEP_TIME_PROD;
     power.sleep(currentSleep);
 }
 

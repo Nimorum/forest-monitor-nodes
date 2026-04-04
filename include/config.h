@@ -64,5 +64,6 @@
 #define DEBUG_MODE true
 #define SLEEP_TIME_PROD 600
 #define SLEEP_TIME_DEBUG 20
+#define SLEEP_TIME_LOW_BATTERY 89400 // 24h
 
 #endif
