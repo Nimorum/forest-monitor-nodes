@@ -37,6 +37,7 @@
 // ==========================================
 #define BUTTON_PIN 0    // Botão "PRG" do Heltec ou botão externo
 #define ADC_BAT_PIN 1   // Exemplo: Pino de leitura de bateria (se usado)
+#define ADC_BAT_CTRL 37 // Controle de energia para o divisor de tensão da bateria (se usado)
 
 // ==========================================
 // Configurações de Rede LoRa
@@ -58,8 +59,21 @@
 // Configurações de tempo de Energia
 // ==========================================
 #define DEBUG_MODE true
+
+#if DEBUG_MODE == true
+  #define DEBUG_PRINT(x) Serial.print(x)
+  #define DEBUG_PRINTLN(x) Serial.println(x)
+  #define DEBUG_PRINTF(...) Serial.printf(__VA_ARGS__)
+#else
+  #define DEBUG_PRINT(x)
+  #define DEBUG_PRINTLN(x)
+  #define DEBUG_PRINTF(...)
+#endif
+
+
+
 #define SLEEP_TIME_PROD 600
-#define SLEEP_TIME_DEBUG 20
+#define SLEEP_TIME_DEBUG 60
 #define SLEEP_TIME_LOW_BATTERY 89400 // 24h
 #define BATTERY_LOW_THRESHOLD 3.2 // Voltagem abaixo da qual consideramos a bateria "baixa"
 

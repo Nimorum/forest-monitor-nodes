@@ -16,7 +16,7 @@ void SetupManager::begin() {
     delay(50);
 
     if (!display.init()) {
-        Serial.println("[ERRO] Falha ao inicializar o OLED!");
+        DEBUG_PRINTLN("[ERRO] Falha ao inicializar o OLED!");
     }
     display.flipScreenVertically();
     display.setFont(ArialMT_Plain_10);
@@ -32,9 +32,9 @@ void SetupManager::updateDisplay(String step, String status) {
     
     display.display();
     
-    Serial.print(step);
-    Serial.print(" ");
-    Serial.println(status);
+    DEBUG_PRINT(step);
+    DEBUG_PRINT(" ");
+    DEBUG_PRINTLN(status);
 }
 
 void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& gps) {
@@ -46,14 +46,17 @@ void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& g
     updateDisplay("1. GPS Status", "Searching...");
 
     // Loop until we get a valid fix
+    uint32_t lastDebugPrint = 0;
+
     while (!hasFix) {
         hasFix = gps.getPosition(currentLat, currentLng);
-        
-        // Optional: Add a small delay or button check to prevent infinite lock
+
         if (!hasFix) {
-            // We don't want to clear the whole buffer, just update the status line if possible
-            // But for simplicity with your current updateDisplay:
-            delay(500); 
+            if (millis() - lastDebugPrint > 2000) {
+                gps.printDebug();
+                lastDebugPrint = millis();
+            }
+            delay(10);
         }
     }
 
@@ -65,7 +68,7 @@ void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& g
     float hum = sensors.getHumidity();
     float bat = sensors.getBatteryVoltage();
 
-    Serial.printf("Temp: %.1f C, Hum: %.1f %%, Bat: %.2f V\n", temp, hum, bat);
+    DEBUG_PRINTF("Temp: %.1f C, Hum: %.1f %%, Bat: %.2f V\n", temp, hum, bat);
     
     String sensorStatus = String(temp, 1) + "C  " + String(hum, 1) + "%";
     updateDisplay("2. Sensors", sensorStatus);

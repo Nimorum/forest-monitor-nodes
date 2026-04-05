@@ -14,6 +14,7 @@ public:
     GPSManager();
     void begin();
     bool getPosition(float &lat, float &lng);
+    void printDebug();
 };
 
 #endif

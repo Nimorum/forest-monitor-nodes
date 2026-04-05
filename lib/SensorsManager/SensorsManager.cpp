@@ -3,6 +3,8 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 void SensorsManager::begin() {
+    pinMode(ADC_BAT_CTRL, OUTPUT);
+    digitalWrite(ADC_BAT_CTRL, LOW);
     dht.begin();
 }
 
@@ -15,12 +17,12 @@ float SensorsManager::getHumidity() {
 }
 
 float SensorsManager::getBatteryVoltage() {
-    digitalWrite(ADC_BAT_PIN, LOW);
+    digitalWrite(ADC_BAT_CTRL, HIGH);
     delay(10);
     // 4.9 is the hardware multiplier from the Heltec V3 internal 390k/100k voltage divider
     float voltage = analogReadMilliVolts(ADC_BAT_PIN) * 4.9 / 1000.0;
     
-    digitalWrite(ADC_BAT_PIN, HIGH);
+    digitalWrite(ADC_BAT_CTRL, LOW);
     
     return voltage;
 }
