@@ -44,10 +44,6 @@
 #define LORA_FREQ 868.0
 #define LORA_BW 125.0
 #define LORA_SF 9
-#define LORA_NSS 8
-#define LORA_DIO1 14
-#define LORA_NRST 12
-#define LORA_BUSY 13
 #define LORA_CR 7
 // 18 (0x12) is the standard sync word for private LoRa networks. LoRaWAN uses 52 (0x34).
 #define LORA_SYNC_WORD 18 
