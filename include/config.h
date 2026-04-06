@@ -43,7 +43,14 @@
 /// Sensores de Solo (Capacitivo)
 /// ==========================================
 #define SOIL_PIN 3
-#define SOIL_AIR_VAL 3000   
+/*
+ * Calibração do Sensor Capacitivo de Humidade do Solo:
+ * Para obter estes valores exatos, leia o valor bruto de analogRead() antes de aplicar a função map():
+ * 1. SOIL_AIR_VAL: Limpe o sensor até estar completamente seco e segure-o no ar.
+ * 2. SOIL_WATER_VAL: Mergulhe o sensor num copo de água até à linha branca.
+ * Nota: O sensor capacitivo apresenta um valor ADC mais baixo quando está molhado.
+ */
+#define SOIL_AIR_VAL 3000
 #define SOIL_WATER_VAL 1200
 
 // ==========================================
