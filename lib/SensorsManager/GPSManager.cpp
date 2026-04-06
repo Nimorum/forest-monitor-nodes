@@ -22,10 +22,10 @@ bool GPSManager::getPosition(float &lat, float &lng) {
 }
 
 void GPSManager::printDebug() {
-    Serial.print("Chars RX: ");
-    Serial.print(_gps.charsProcessed());
-    Serial.print(" | Sats: ");
-    Serial.print(_gps.satellites.isValid() ? _gps.satellites.value() : 0);
-    Serial.print(" | HDOP: ");
-    Serial.println(_gps.hdop.isValid() ? _gps.hdop.hdop() : 99.9);
+    DEBUG_PRINT("Chars RX: ");
+    DEBUG_PRINT(_gps.charsProcessed());
+    DEBUG_PRINT(" | Sats: ");
+    DEBUG_PRINT(_gps.satellites.isValid() ? _gps.satellites.value() : 0);
+    DEBUG_PRINT(" | HDOP: ");
+    DEBUG_PRINTLN(_gps.hdop.isValid() ? _gps.hdop.hdop() : 99.9);
 }

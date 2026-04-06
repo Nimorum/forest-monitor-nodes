@@ -36,8 +36,15 @@
 // Outros Periféricos
 // ==========================================
 #define BUTTON_PIN 0    // Botão "PRG" do Heltec ou botão externo
-#define ADC_BAT_PIN 1   // Exemplo: Pino de leitura de bateria (se usado)
-#define ADC_BAT_CTRL 37 // Controle de energia para o divisor de tensão da bateria (se usado)
+#define ADC_BAT_PIN 1   // Exemplo: Pino de leitura de bateria
+#define ADC_BAT_CTRL 37 // Controle de energia para o divisor de tensão da 
+
+/// ==========================================
+/// Sensores de Solo (Capacitivo)
+/// ==========================================
+#define SOIL_PIN 3
+#define SOIL_AIR_VAL 3000   
+#define SOIL_WATER_VAL 1200
 
 // ==========================================
 // Configurações de Rede LoRa
