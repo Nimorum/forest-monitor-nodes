@@ -67,8 +67,10 @@ void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& g
     float temp = sensors.getTemperature();
     float hum = sensors.getHumidity();
     float bat = sensors.getBatteryVoltage();
+    float soil = sensors.getSoilMoisture();
+    float wind = sensors.getWindSpeed();
 
-    DEBUG_PRINTF("Temp: %.1f C, Hum: %.1f %%, Bat: %.2f V\n", temp, hum, bat);
+    DEBUG_PRINTF("Temp: %.2f C, Hum: %.2f %%, Bat: %.2f V, Soil: %.2f %%, Wind: %.2f m/s\n", temp, hum, bat, soil, wind);
     
     String sensorStatus = String(temp, 1) + "C  " + String(hum, 1) + "%";
     updateDisplay("2. Sensors", sensorStatus);
