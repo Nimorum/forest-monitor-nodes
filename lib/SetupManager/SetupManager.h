@@ -1,8 +1,12 @@
 /**
  * @file SetupManager.h
  * @brief Header file for the SetupManager class.
- * @details This file defines the SetupManager class, which handles the initial configuration 
+ * @details This file defines the SetupManager class, which handles the initial configuration
  * and hardware verification sequence for the forest monitor node, including OLED display interaction.
+ *
+ * @author Joao Fialho nº 2301428
+ * @version 1.0.0
+ * @date 2026-04-11
  */
 
 #ifndef SETUP_MANAGER_H
@@ -11,7 +15,7 @@
 #include <Arduino.h>
 #include "Wire.h"
 #include "SSD1306Wire.h"
-#include "SensorsManager.h" 
+#include "SensorsManager.h"
 #include "LoRaManager.h"
 #include "GPSManager.h"
 #include "../../include/config.h"
@@ -21,6 +25,15 @@
  * @brief Manages the initial setup and diagnostic routine.
  * @details The SetupManager class provides a structured way to initialize the hardware,
  * verify GPS connectivity, read initial sensor data, and register the node via LoRa.
+ *
+ * The setup sequence includes:
+ * - OLED display initialization and verification
+ * - GPS module power-up and position acquisition
+ * - Sensor data validation
+ * - LoRa network registration
+ *
+ * This class is designed to run once during device initialization to ensure
+ * all hardware components are functioning correctly before normal operation begins.
  */
 class SetupManager {
 private:

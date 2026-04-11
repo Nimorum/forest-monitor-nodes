@@ -1,28 +1,9 @@
-/**
- * @file SetupManager.cpp
- * @brief Implementation of the SetupManager class.
- * @details Handles the initialization of the OLED display and the execution of the
- * initial setup sequence including GPS fix, sensor reading, and LoRa registration.
- */
-
 #include "SetupManager.h"
 
-/**
- * @brief Constructor for the SetupManager class.
- * @details Initializes the display driver with the predefined OLED parameters (I2C address and pins).
- * @return SetupManager instance.
- */
 SetupManager::SetupManager() : 
     _exitMenu(false),
     display(0x3c, OLED_SDA, OLED_SCL, GEOMETRY_128_64) {}
 
-/**
- * @brief Initializes the OLED display hardware.
- * @details Performs a hardware reset of the OLED, initializes the driver, sets orientation, 
- * and configures the default font.
- * @return void
- * @note Failure to initialize the display will be logged via DEBUG_PRINTLN.
- */
 void SetupManager::begin() {
 
     pinMode(OLED_RST, OUTPUT);
@@ -42,14 +23,6 @@ void SetupManager::begin() {
     display.clear();
 }
 
-/**
- * @brief Updates the OLED display with the current setup step and status.
- * @details Clears the screen and draws a standard header, followed by the specific step and status message.
- * @param step (String) The name of the current setup step being executed.
- * @param status (String) The current status or result of the step.
- * @return void
- * @note This method also outputs the information to the debug serial port in debug mode.
- */
 void SetupManager::updateDisplay(String step, String status) {
     display.clear();
     
@@ -64,18 +37,6 @@ void SetupManager::updateDisplay(String step, String status) {
     DEBUG_PRINTLN(status);
 }
 
-/**
- * @brief Runs the complete setup and registration sequence.
- * @details Executes a multi-step process:
- * 1. Waits for a valid GPS fix.
- * 2. Reads and verifies all connected sensors.
- * 3. Performs node registration through the LoRa network.
- * @param sensors (SensorsManager&) Reference to the sensors management object.
- * @param lora (LoRaManager&) Reference to the LoRa communication management object.
- * @param gps (GPSManager&) Reference to the GPS management object.
- * @return void
- * @note This is a blocking call that will only return once registration is successful.
- */
 void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& gps) {
     _exitMenu = false;
     float currentLat = 0.0;

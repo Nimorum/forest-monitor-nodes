@@ -1,6 +1,6 @@
 #include "GPSManager.h"
 
-GPSManager::GPSManager() : _gpsSerial(2) {} // Using Hardware Serial 2
+GPSManager::GPSManager() : _gpsSerial(2) {}
 
 void GPSManager::begin() {
     // 9600 is the default baud rate for NEO-6M modules
@@ -8,7 +8,6 @@ void GPSManager::begin() {
 }
 
 bool GPSManager::getPosition(float &lat, float &lng) {
-    // Feed the parser with data from the serial buffer
     while (_gpsSerial.available() > 0) {
         _gps.encode(_gpsSerial.read());
     }
