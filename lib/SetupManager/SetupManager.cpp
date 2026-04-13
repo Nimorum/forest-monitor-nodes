@@ -16,7 +16,7 @@ void SetupManager::begin() {
     delay(50);
 
     if (!display.init()) {
-        DEBUG_PRINTLN("[ERRO] Falha ao inicializar o OLED!");
+        APP_DEBUG_PRINTLN("[ERRO] Falha ao inicializar o OLED!");
     }
     display.flipScreenVertically();
     display.setFont(ArialMT_Plain_10);
@@ -32,9 +32,9 @@ void SetupManager::updateDisplay(String step, String status) {
     
     display.display();
     
-    DEBUG_PRINT(step);
-    DEBUG_PRINT(" ");
-    DEBUG_PRINTLN(status);
+    APP_DEBUG_PRINT(step);
+    APP_DEBUG_PRINT(" ");
+    APP_DEBUG_PRINTLN(status);
 }
 
 void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& gps) {
@@ -70,7 +70,7 @@ void SetupManager::run(SensorsManager& sensors, LoRaManager& lora, GPSManager& g
     float soil = sensors.getSoilMoisture();
     float wind = sensors.getWindSpeed();
 
-    DEBUG_PRINTF("Temp: %.2f C, Hum: %.2f %%, Bat: %.2f V, Soil: %.2f %%, Wind: %.2f m/s\n", temp, hum, bat, soil, wind);
+    APP_DEBUG_PRINTF("Temp: %.2f C, Hum: %.2f %%, Bat: %.2f V, Soil: %.2f %%, Wind: %.2f m/s\n", temp, hum, bat, soil, wind);
     
     String sensorStatus = String(temp, 1) + "C  " + String(hum, 1) + "%";
     updateDisplay("2. Sensors", sensorStatus);

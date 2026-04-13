@@ -76,7 +76,7 @@ public:
      * @return true if initialization succeeds, false otherwise.
      * @note This method should be called during the setup phase before
      *       any LoRa communication.
-     * @note Failure will be indicated via DEBUG_PRINT and DEBUG_PRINTLN macros.
+     * @note Failure will be indicated via APP_DEBUG_PRINT and APP_DEBUG_PRINTLN macros.
      */
     bool begin();
 

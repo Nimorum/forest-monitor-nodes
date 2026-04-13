@@ -29,11 +29,8 @@ float SensorsManager::getBatteryVoltage() {
 
 float SensorsManager::getSoilMoisture() {
     int rawValue = analogRead(SOIL_PIN);
-    DEBUG_PRINTLN("Raw Soil Moisture Value: " + String(rawValue));
-    // Mapeia o valor bruto para uma porcentagem de umidade
-    float moisturePercent = map(rawValue, SOIL_AIR_VAL, SOIL_WATER_VAL, 0, 100);
-    moisturePercent = constrain(moisturePercent, 0, 100); // Garante que fique entre 0 e 100
-    return moisturePercent;
+    APP_DEBUG_PRINTLN("Raw Soil Moisture Value: " + String(rawValue));
+    return rawValue;
 }
 
 float SensorsManager::getWindSpeed() {

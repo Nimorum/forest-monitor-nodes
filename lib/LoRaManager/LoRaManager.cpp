@@ -20,8 +20,8 @@ bool LoRaManager::begin() {
         );
     
     if (state != RADIOLIB_ERR_NONE) {
-        DEBUG_PRINT("LoRa init failed, code: ");
-        DEBUG_PRINTLN(state);
+        APP_DEBUG_PRINT("LoRa init failed, code: ");
+        APP_DEBUG_PRINTLN(state);
         return false;
     }
     return true;
@@ -44,8 +44,8 @@ bool LoRaManager::sendRegistration(float latitude, float longitude) {
     String payload;
     serializeJson(doc, payload);
 
-    DEBUG_PRINT("TX: ");
-    DEBUG_PRINTLN(payload);
+    APP_DEBUG_PRINT("TX: ");
+    APP_DEBUG_PRINTLN(payload);
 
     return sendData(payload);
 }
@@ -64,8 +64,8 @@ bool LoRaManager::sendTelemetry(float temperature, float humidity,float vbat, fl
     String payload;
     serializeJson(doc, payload);
 
-    DEBUG_PRINT("TX: ");
-    DEBUG_PRINTLN(payload);
+    APP_DEBUG_PRINT("TX: ");
+    APP_DEBUG_PRINTLN(payload);
 
     return sendData(payload);
 }

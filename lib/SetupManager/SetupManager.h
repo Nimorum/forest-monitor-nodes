@@ -67,7 +67,7 @@ public:
      * @brief Initializes the OLED display hardware.
      * @details Performs a hardware reset of the OLED, initializes the driver, sets orientation,
      * and configures the default font.
-     * @note Failure to initialize the display will be logged via DEBUG_PRINTLN.
+     * @note Failure to initialize the display will be logged via APP_DEBUG_PRINTLN.
      */
     void begin();
 

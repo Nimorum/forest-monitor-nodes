@@ -43,15 +43,6 @@
 /// Sensores de Solo (Capacitivo)
 /// ==========================================
 #define SOIL_PIN 3
-/*
- * Calibração do Sensor Capacitivo de Humidade do Solo:
- * Para obter estes valores exatos, leia o valor bruto de analogRead() antes de aplicar a função map():
- * 1. SOIL_AIR_VAL: Limpe o sensor até estar completamente seco e segure-o no ar.
- * 2. SOIL_WATER_VAL: Mergulhe o sensor num copo de água até à linha branca.
- * Nota: O sensor capacitivo apresenta um valor ADC mais baixo quando está molhado.
- */
-#define SOIL_AIR_VAL 3000
-#define SOIL_WATER_VAL 1200
 
 // ==========================================
 // Configurações de Rede LoRa
@@ -75,13 +66,13 @@
 #define DEBUG_MODE true
 
 #if DEBUG_MODE == true
-  #define DEBUG_PRINT(x) Serial.print(x)
-  #define DEBUG_PRINTLN(x) Serial.println(x)
-  #define DEBUG_PRINTF(...) Serial.printf(__VA_ARGS__)
+  #define APP_DEBUG_PRINT(x) Serial.print(x)
+  #define APP_DEBUG_PRINTLN(x) Serial.println(x)
+  #define APP_DEBUG_PRINTF(...) Serial.printf(__VA_ARGS__)
 #else
-  #define DEBUG_PRINT(x)
-  #define DEBUG_PRINTLN(x)
-  #define DEBUG_PRINTF(...)
+  #define APP_DEBUG_PRINT(x)
+  #define APP_DEBUG_PRINTLN(x)
+  #define APP_DEBUG_PRINTF(...)
 #endif
 
 

@@ -24,7 +24,7 @@
 #include "SensorsManager.h"
 #include "LoRaManager.h"
 #include "GPSManager.h"
-#include "../../include/config.h"
+#include "../include/config.h"
 
 RTC_DATA_ATTR bool initialConfigDone = false;
 
@@ -60,7 +60,7 @@ void setup()
 
     if (!initialConfigDone)
     {
-        DEBUG_PRINTLN(">>> MODO SETUP INICIAL (60s) <<<");
+        APP_DEBUG_PRINTLN(">>> MODO SETUP INICIAL (60s) <<<");
         setupMenu.begin();
         power.gpsOn();
         power.sensorsOn();
@@ -79,7 +79,7 @@ void setup()
                 {
                     if (millis() - pressStart > 2000)
                     { 
-                        DEBUG_PRINTLN("\n[EVENTO] Botao segurado por 2s!");
+                        APP_DEBUG_PRINTLN("\n[EVENTO] Botao segurado por 2s!");
                         inSetup = true;
                     }
                     delay(10);
@@ -91,7 +91,7 @@ void setup()
             {
                 String input = Serial.readStringUntil('\n');
                 inSetup = true;
-                DEBUG_PRINTLN("\n[EVENTO] Comando recebido! Entrando no Setup..");
+                APP_DEBUG_PRINTLN("\n[EVENTO] Comando recebido! Entrando no Setup..");
                 break;
             }
 
@@ -110,10 +110,10 @@ void setup()
         }
 
         power.gpsOff();
-        DEBUG_PRINTLN("Setup Terminado.");
+        APP_DEBUG_PRINTLN("Setup Terminado.");
     }
 
-    DEBUG_PRINTLN("Executando telemetria..");
+    Serial.println("Executando telemetria..");
     power.sensorsOn();
     delay(1500);
     float temperature = sensors.getTemperature();
@@ -121,18 +121,18 @@ void setup()
     float batteryVoltage = sensors.getBatteryVoltage();
     float soilMoisture = sensors.getSoilMoisture();
     float windSpeed = sensors.getWindSpeed();
-    DEBUG_PRINTF("Temp: %.2f C, Hum: %.2f %, Bat: %.2f V\n", temperature, humidity, batteryVoltage);
+    APP_DEBUG_PRINTF("Temp: %.2f C, Hum: %.2f %, Bat: %.2f V\n", temperature, humidity, batteryVoltage);
     delay(1500);
     lora.sendTelemetry(temperature, humidity, batteryVoltage, soilMoisture, windSpeed);
     delay(1500);
     uint32_t currentSleep;
     if(batteryVoltage < BATTERY_LOW_THRESHOLD && batteryVoltage > 1.0) {
-        DEBUG_PRINTLN("Bateria baixa! Entrando em modo de baixo consumo..");
+        APP_DEBUG_PRINTLN("Bateria baixa! Entrando em modo de baixo consumo..");
         currentSleep = SLEEP_TIME_LOW_BATTERY;
     } else {
         currentSleep = DEBUG_MODE ? SLEEP_TIME_DEBUG : SLEEP_TIME_PROD;
     }
-    DEBUG_PRINTLN("A dormir..");
+    APP_DEBUG_PRINTLN("A dormir..");
     power.sleep(currentSleep);
 }
 

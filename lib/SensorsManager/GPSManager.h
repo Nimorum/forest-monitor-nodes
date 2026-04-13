@@ -58,7 +58,7 @@ public:
      * @details Prints the number of characters processed, number of satellites
      * in use, and the Horizontal Dilution of Precision (HDOP) to the debug serial port.
      * @return void
-     * @note This method is intended for debugging purposes and outputs to DEBUG_PRINT macros.
+     * @note This method is intended for debugging purposes and outputs to APP_DEBUG_PRINT macros.
      */
     void printDebug();
 };
