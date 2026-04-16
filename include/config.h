@@ -36,7 +36,7 @@
 // Outros Periféricos
 // ==========================================
 #define BUTTON_PIN 0    // Botão "PRG" do Heltec ou botão externo
-#define ADC_BAT_PIN 1   // Exemplo: Pino de leitura de bateria
+#define ADC_BAT_PIN 1   // Pino de leitura de bateria
 #define ADC_BAT_CTRL 37 // Controle de energia para o divisor de tensão da 
 
 /// ==========================================
