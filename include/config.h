@@ -9,6 +9,16 @@
 #define V_EXT_PIN 36   // Controle de energia para sensores
 #define DHTPIN 47     
 #define DHTTYPE DHT22
+#define WIND_PIN 2
+// Parâmetros de Calibração do Anemómetro
+// WIND_FACTOR: km/h por cada 1V gerado (ajustável após testes)
+#define WIND_FACTOR 38.46 
+// WIND_DIVIDER_RATIO: Compensação do divisor de tensão hardware
+// Se R2=2k e R3=10k, a razão é (10+2)/10 = 1.2
+// Se não houver divisor (ligação direta), usar 1.0
+#define WIND_DIVIDER_RATIO 1.0 
+// WIND_MIN_VOLTAGE: Threshold de ruído (Volts)
+#define WIND_MIN_VOLTAGE 0.04
 
 // ==========================================
 // Pinos do Sistema (Heltec V3 Internos)

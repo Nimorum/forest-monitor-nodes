@@ -16,7 +16,7 @@ Os nós sensores foram desenhados para máxima eficiência energética em ambien
 - **Sensores:**
   - Humidade e Temperatura do Solo
   - BME280 (Temperatura, Humidade do Ar, Pressão)
-  - Anemómetro (Reed switch / interrupções de hardware)
+  - Anemómetro Analógico: Motor DC de ímanes permanentes atuando como gerador de sinal. A leitura é feita via ADC com proteção por divisor de tensão hardware.
   - Módulo GPS NEO-6M (apenas para deploy)
 
 ## 🚀 Compilação e Upload

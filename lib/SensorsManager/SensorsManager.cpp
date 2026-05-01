@@ -4,6 +4,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 void SensorsManager::begin() {
     pinMode(ADC_BAT_CTRL, OUTPUT);
+    pinMode(WIND_PIN, INPUT);
     digitalWrite(ADC_BAT_CTRL, LOW);
     dht.begin();
 }
@@ -34,6 +35,20 @@ float SensorsManager::getSoilMoisture() {
 }
 
 float SensorsManager::getWindSpeed() {
-    // TODO
-    return 0.0; // Retorna um valor de velocidade do vento (m/s)
+    long sum = 0;
+    const int samples = 32;
+    for(int i = 0; i < samples; i++) {
+        sum += analogReadMilliVolts(WIND_PIN);
+        delay(1); 
+    }
+    float vRead = (sum / (float)samples) / 1000.0;
+    APP_DEBUG_PRINTLN("Average Wind Voltage: " + String(vRead) + " V");
+    float vSource = vRead * WIND_DIVIDER_RATIO;
+    APP_DEBUG_PRINTLN("Reconstructed Wind Voltage: " + String(vSource) + " V");
+    if (vSource < WIND_MIN_VOLTAGE) {
+        return 0.0;
+    }
+    float speedKmH = vSource * WIND_FACTOR;
+    APP_DEBUG_PRINTLN("Calculated Wind Speed: " + String(speedKmH) + " km/h");
+    return speedKmH;
 }
